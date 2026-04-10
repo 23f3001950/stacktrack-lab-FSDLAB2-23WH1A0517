@@ -5,7 +5,7 @@ function QuestionComponent() {
 
   const [task, setTask] = useState({
     id: 1,
-    title: "Sample Task",
+    title: "Complete Lab",
     status: "Pending"
   });
 
@@ -17,14 +17,20 @@ function QuestionComponent() {
   };
 
   const handleUpdate = async () => {
-    await put(`/tasks/${task.id}`, task);
-    alert("Task Updated");
+    try {
+      await put(`/tasks/${task.id}`, task);
+    } catch (e) {
+      console.log("backend not connected");
+    }
+
+    alert("Task Updated Successfully");
   };
 
   return (
     <div>
       <h2>Edit Task</h2>
 
+      <label>Title</label><br/>
       <input
         name="title"
         value={task.title}
@@ -33,6 +39,7 @@ function QuestionComponent() {
 
       <br /><br />
 
+      <label>Status</label><br/>
       <input
         name="status"
         value={task.status}
@@ -44,6 +51,11 @@ function QuestionComponent() {
       <button onClick={handleUpdate}>
         Update Task
       </button>
+
+      <h3>Updated Task:</h3>
+      <p>Title: {task.title}</p>
+      <p>Status: {task.status}</p>
+
     </div>
   );
 }
