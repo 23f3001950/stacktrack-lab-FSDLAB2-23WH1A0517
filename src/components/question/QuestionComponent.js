@@ -1,24 +1,51 @@
-import React from 'react';
-
-// TODO: Import any API functions you need from '../../api/client'
-// Example: import { get, post } from '../../api/client';
+import React, { useState } from 'react';
+import { put } from '../../api/client';
 
 function QuestionComponent() {
-  // TODO: Define state variables needed for your question set
-  
 
-  // TODO: Implement data fetching inside a useEffect hook
-  
+  // Prefilled task
+  const [task, setTask] = useState({
+    id: 1,
+    title: "Complete Lab",
+    status: "Pending"
+  });
 
-  // TODO: Implement any event handlers required by your question set
-  
+  const handleChange = (e) => {
+    setTask({
+      ...task,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleUpdate = async () => {
+    await put(`/tasks/${task.id}`, task);
+    alert("Task Updated");
+  };
 
   return (
     <div>
-      {/* TODO: Replace this placeholder with your question set UI */}
-      <p>QuestionComponent placeholder — implement your assigned question set here.</p>
+      <h2>Edit Task</h2>
 
-      {/* TODO: Render fetched data or form elements as required */}
+      <input
+        name="title"
+        value={task.title}
+        onChange={handleChange}
+      />
+
+      <br /><br />
+
+      <input
+        name="status"
+        value={task.status}
+        onChange={handleChange}
+      />
+
+      <br /><br />
+
+      <button onClick={handleUpdate}>
+        Update Task
+      </button>
+
     </div>
   );
 }
